@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "concurrently": "^7.1.0",
+    "express": "^4.18.2",
+    "lowdb": "^1.0.0",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "main": "dist/main.js",
+  "dependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.3",
+    "cors": "^2.8.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
+  },
+  "scripts": {
+    "buildWatch": "tsc --watch",
+    "build": "tsc",
+    "start": "node --enable-source-maps .",
+    "devStart": "nodemon --ignore config --enable-source-maps .",
+    "dev": "concurrently \"npm run buildWatch\" \"npm run devStart\""
+  }
+}
