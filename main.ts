@@ -1,8 +1,9 @@
-import express, {Request, Response} from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import FileSync from "lowdb/adapters/FileSync";
 const low = require('lowdb')
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+const cors = require('cors');
 
 interface Task {
     id: number;
@@ -31,6 +32,19 @@ const app = express();
 const port = 3005;
 
 app.use(express.json());
+
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
+
+
+function setAccessControlHeaders(req: Request, res: Response, next: NextFunction) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    next();
+}
+
+app.use(setAccessControlHeaders);
 
 app.get('/tasks', (req: Request, res: Response<Task[]>) => {
     // @ts-ignore
@@ -101,6 +115,9 @@ app.delete('/tasks/:id', (req: Request<{ id: string }>, res: Response) => {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+
 
 app.listen(port, async () => {
     console.log(`Server running on port ${port}`);
